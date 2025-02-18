@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Qzlist</title>
+<style type="text/css">
+.naviconcntnr{
+    width:100%;
+    height:40px;
+    background:#cfcfcf;
+    position:relative;
+    bottom:0;
+    right:0;
+    display:flex;
+    gap:2px;
+    justify-content:space-between;
+    border-radius:10px;
+    overflow:hidden;
+    z-index:2;
+    }
+    .naviconcntnr .icons{
+    width:40px;
+    height:40px;
+    transform:translate(-13px,0);
+    }
+    .naviconcntnr h1{
+      margin:0;
+      transform:translate(12px,0);
+      color:white;
+    }
+</style>
+</head>
+<body>
+<div class="naviconcntnr" >
+<h1>select quiz</h1>
+    <a href="../../Public/index.html" target="self" >
+    <svg class="icons"  aria-hidden="true" role="img"  preserveAspectRatio="xMidYMid meet" viewBox="0 0 21 25"><g ><path d="M2 13l9.293-9.293a1 1 0 0 1 1.414 0L22 13h-2v8a1 1 0 0 1-1 1h-5v-7h-4v7H5a1 1 0 0 1-1-1v-8H2z" fill="white"/></g></svg>
+    </a>
+    </div>
+<ul class="qzlist"></ul>
+
+<script type="text/javascript">
+async function select(data){
+//alert("hellook");
+alert(data);
+await localStorage.setItem("selectedValue",data);
+console.log(localStorage.getItem("selectedValue"));
+window.open("quizz_home.html",self);
+} 
+</script>
+<script type="module">
+// data base
+let db;
+let qzlist=document.getElementsByClassName("qzlist")[0];
+function openDatabase(){
+
+return new Promise((res,rej)=>{
+ let req=indexedDB.open("QuizzApp",1);
+ req.onsuccess=event=>{
+ db=event.target.result;
+ res(db);
+ }
+ req.onerror=()=>{
+ console.error("connection failed");
+ res();
+ }
+})
+
+}
+
+//read data
+function readEachrecord(db){
+  let transaction = db.transaction("Quizz meta","readonly");
+  let objStore=transaction.objectStore("Quizz meta");
+  objStore.openCursor().onsuccess=event=>{
+   let cursor=event.target.result;
+   if(cursor){
+     createElement(cursor);
+     cursor.continue();
+   }else{
+     console.log("Kainj");
+   }
+}
+}
+
+
+
+
+function createElement(data){
+console.log(data.key);
+  let box=document.createElement("li");
+  
+  box.innerHTML=`<a href="#" onclick="select('${data.key}')">${data.value.Quizname}</a>(${data.value.numOfQstns})`
+  qzlist.appendChild(box);
+  box.addEventListener("click",()=>{
+  //select(data.key);
+  console.log(`${data.key}`);
+  });
+}
+
+async function Listelems(){
+ let db=await openDatabase();
+ await readEachrecord(db);
+}
+Listelems();
+</script>
+</body>
+</html>
