@@ -1,8 +1,8 @@
 {
     "version":2,
     "routes":[
-        {"src":"/createQuizz","dest":"/Src/pages/createQuizz.html"},
-        {"src":"/play","dest":"/Src/pages/chooseQuizz.html"}
+        {"src":"/createQuizz","dest":"/Src/Pages/createQuizz.html"},
+        {"src":"/play","dest":"/Src/Pages/chooseQuizz.html"}
     ]
 
 }
