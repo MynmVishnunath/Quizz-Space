@@ -2,7 +2,8 @@
     "version":2,
     "routes":[
         {"src":"/createQuizz","dest":"/Src/Pages/createQuizz.html"},
-        {"src":"/play","dest":"/Src/Pages/chooseQuizz.html"}
+        {"src":"/play","dest":"/Src/Pages/chooseQuizz.html"},
+        {"src":"/home","dest":"/Public/index.html"}
     ]
 
 }
